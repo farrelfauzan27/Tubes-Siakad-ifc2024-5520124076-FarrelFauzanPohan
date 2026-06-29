@@ -21,6 +21,7 @@
                     <td>{{ $mk->nama_matakuliah }}</td>
                     <td>{{ $mk->sks }}</td>
                     <td>
+                        <a href="{{ route('matakuliah.show', $mk->kode_matakuliah) }}" class="btn btn-sm">Detail</a>
                         <a href="{{ route('matakuliah.edit', $mk->kode_matakuliah) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('matakuliah.destroy', $mk->kode_matakuliah) }}" method="POST" style="display:inline;" onsubmit="return confirm('Hapus mata kuliah ini?');">
                             @csrf @method('DELETE')

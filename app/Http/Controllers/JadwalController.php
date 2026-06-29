@@ -26,6 +26,12 @@ class JadwalController extends Controller
         return view('jadwal.index', compact('jadwals'));
     }
 
+    public function show(Jadwal $jadwal)
+    {
+        $jadwal->load('mataKuliah', 'dosen');
+        return view('jadwal.show', compact('jadwal'));
+    }
+
     public function create()
     {
         $matakuliahs = MataKuliah::orderBy('nama_matakuliah')->get();

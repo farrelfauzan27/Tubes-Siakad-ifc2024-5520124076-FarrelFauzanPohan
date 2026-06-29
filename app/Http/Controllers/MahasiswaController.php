@@ -24,6 +24,12 @@ class MahasiswaController extends Controller
         return view('mahasiswa.index', compact('mahasiswas'));
     }
 
+    public function show(Mahasiswa $mahasiswa)
+    {
+        $mahasiswa->load('dosen', 'mataKuliahs', 'user');
+        return view('mahasiswa.show', compact('mahasiswa'));
+    }
+
     public function create()
     {
         $dosens = Dosen::orderBy('nama')->get();

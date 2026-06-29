@@ -23,6 +23,7 @@
                     <td>{{ $j->hari }}</td>
                     <td>{{ $j->jam }}</td>
                     <td>
+                        <a href="{{ route('jadwal.show', $j->id) }}" class="btn btn-sm">Detail</a>
                         <a href="{{ route('jadwal.edit', $j->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('jadwal.destroy', $j->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Hapus jadwal ini?');">
                             @csrf @method('DELETE')

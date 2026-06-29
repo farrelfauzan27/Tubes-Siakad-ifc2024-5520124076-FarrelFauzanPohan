@@ -54,6 +54,70 @@ class KrsController extends Controller
         );
     }
 
+    // Admin: form tambah KRS untuk mahasiswa manapun
+    public function create()
+    {
+        $mahasiswas = Mahasiswa::orderBy('nama')->get();
+        $matakuliahs = MataKuliah::orderBy('nama_matakuliah')->get();
+        return view('krs.create', compact('mahasiswas', 'matakuliahs'));
+    }
+
+    // Admin: simpan KRS baru untuk mahasiswa manapun
+    public function storeAdmin(Request $request)
+    {
+        $validated = $request->validate([
+            'npm' => ['required', 'exists:mahasiswas,npm'],
+            'kode_matakuliah' => ['required', 'exists:matakuliahs,kode_matakuliah'],
+        ]);
+
+        $exists = Krs::where('npm', $validated['npm'])
+            ->where('kode_matakuliah', $validated['kode_matakuliah'])
+            ->exists();
+
+        if ($exists) {
+            return back()->with('error', 'Mahasiswa ini sudah mengambil mata kuliah tersebut.')->withInput();
+        }
+
+        Krs::create($validated);
+
+        return redirect()->route('krs.index')->with('success', 'Data KRS berhasil ditambahkan.');
+    }
+
+    // Admin: lihat detail satu data KRS
+    public function show(Krs $krs)
+    {
+        $krs->load('mahasiswa', 'mataKuliah');
+        return view('krs.show', compact('krs'));
+    }
+
+    // Admin: form edit data KRS (ganti mata kuliah)
+    public function edit(Krs $krs)
+    {
+        $matakuliahs = MataKuliah::orderBy('nama_matakuliah')->get();
+        return view('krs.edit', compact('krs', 'matakuliahs'));
+    }
+
+    // Admin: update data KRS
+    public function update(Request $request, Krs $krs)
+    {
+        $validated = $request->validate([
+            'kode_matakuliah' => ['required', 'exists:matakuliahs,kode_matakuliah'],
+        ]);
+
+        $exists = Krs::where('npm', $krs->npm)
+            ->where('kode_matakuliah', $validated['kode_matakuliah'])
+            ->where('id', '!=', $krs->id)
+            ->exists();
+
+        if ($exists) {
+            return back()->with('error', 'Mahasiswa ini sudah mengambil mata kuliah tersebut.');
+        }
+
+        $krs->update($validated);
+
+        return redirect()->route('krs.index')->with('success', 'Data KRS berhasil diperbarui.');
+    }
+
     // Mahasiswa: lihat KRS milik sendiri
     public function my()
     {

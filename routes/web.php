@@ -24,14 +24,19 @@ Route::middleware('auth')->group(function () {
 
     // ===== Khusus Admin =====
     Route::middleware('role:admin')->group(function () {
-        Route::resource('dosen', DosenController::class)->except('show');
-        Route::resource('mahasiswa', MahasiswaController::class)->except('show');
-        Route::resource('matakuliah', MataKuliahController::class)->except('show')
+        Route::resource('dosen', DosenController::class);
+        Route::resource('mahasiswa', MahasiswaController::class);
+        Route::resource('matakuliah', MataKuliahController::class)
             ->parameters(['matakuliah' => 'matakuliah']);
-        Route::resource('jadwal', JadwalController::class)->except('show');
+        Route::resource('jadwal', JadwalController::class);
         Route::get('/krs', [KrsController::class, 'index'])->name('krs.index');
+        Route::get('/krs/create', [KrsController::class, 'create'])->name('krs.create');
+        Route::post('/krs', [KrsController::class, 'storeAdmin'])->name('krs.store.admin');
         Route::get('/krs/export/pdf', [KrsController::class, 'exportPdf'])->name('krs.export.pdf');
         Route::get('/krs/export/excel', [KrsController::class, 'exportExcel'])->name('krs.export.excel');
+        Route::get('/krs/{krs}', [KrsController::class, 'show'])->name('krs.show');
+        Route::get('/krs/{krs}/edit', [KrsController::class, 'edit'])->name('krs.edit');
+        Route::put('/krs/{krs}', [KrsController::class, 'update'])->name('krs.update');
     });
 
     // ===== Khusus Mahasiswa =====

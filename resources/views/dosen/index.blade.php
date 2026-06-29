@@ -20,6 +20,7 @@
                     <td>{{ $dosen->nidn }}</td>
                     <td>{{ $dosen->nama }}</td>
                     <td>
+                        <a href="{{ route('dosen.show', $dosen->nidn) }}" class="btn btn-sm">Detail</a>
                         <a href="{{ route('dosen.edit', $dosen->nidn) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('dosen.destroy', $dosen->nidn) }}" method="POST" style="display:inline;" onsubmit="return confirm('Hapus data dosen ini?');">
                             @csrf @method('DELETE')

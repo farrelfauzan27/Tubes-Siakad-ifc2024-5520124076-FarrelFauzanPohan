@@ -21,6 +21,7 @@
                     <td>{{ $m->nama }}</td>
                     <td>{{ $m->dosen->nama ?? '-' }}</td>
                     <td>
+                        <a href="{{ route('mahasiswa.show', $m->npm) }}" class="btn btn-sm">Detail</a>
                         <a href="{{ route('mahasiswa.edit', $m->npm) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('mahasiswa.destroy', $m->npm) }}" method="POST" style="display:inline;" onsubmit="return confirm('Hapus data mahasiswa ini?');">
                             @csrf @method('DELETE')

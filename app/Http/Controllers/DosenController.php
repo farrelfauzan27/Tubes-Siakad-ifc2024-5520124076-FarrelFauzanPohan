@@ -21,6 +21,12 @@ class DosenController extends Controller
         return view('dosen.index', compact('dosens'));
     }
 
+    public function show(Dosen $dosen)
+    {
+        $dosen->load('mahasiswas', 'jadwals.mataKuliah');
+        return view('dosen.show', compact('dosen'));
+    }
+
     public function create()
     {
         return view('dosen.create');

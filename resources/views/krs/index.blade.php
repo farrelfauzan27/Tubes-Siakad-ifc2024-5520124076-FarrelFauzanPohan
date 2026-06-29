@@ -9,6 +9,7 @@
         <button class="btn">Cari</button>
     </form>
     <div>
+        <a href="{{ route('krs.create') }}" class="btn btn-primary">+ Tambah KRS</a>
         <a href="{{ route('krs.export.pdf') }}" class="btn">Export PDF</a>
         <a href="{{ route('krs.export.excel') }}" class="btn">Export Excel</a>
     </div>
@@ -16,7 +17,7 @@
 
 <div class="box">
     <table>
-        <thead><tr><th>NPM</th><th>Nama Mahasiswa</th><th>Mata Kuliah</th><th>SKS</th><th width="90">Aksi</th></tr></thead>
+        <thead><tr><th>NPM</th><th>Nama Mahasiswa</th><th>Mata Kuliah</th><th>SKS</th><th width="180">Aksi</th></tr></thead>
         <tbody>
             @forelse($krsList as $k)
                 <tr>
@@ -25,7 +26,9 @@
                     <td>{{ $k->mataKuliah->nama_matakuliah ?? '-' }}</td>
                     <td>{{ $k->mataKuliah->sks ?? '-' }}</td>
                     <td>
-                        <form action="{{ route('krs.destroy', $k->id) }}" method="POST" onsubmit="return confirm('Hapus data KRS ini?');">
+                        <a href="{{ route('krs.show', $k->id) }}" class="btn btn-sm">Detail</a>
+                        <a href="{{ route('krs.edit', $k->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('krs.destroy', $k->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Hapus data KRS ini?');">
                             @csrf @method('DELETE')
                             <button class="btn btn-danger btn-sm">Hapus</button>
                         </form>
